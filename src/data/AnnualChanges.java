@@ -11,15 +11,15 @@ public final class AnnualChanges {
     /**
      * Gifts
      */
-    private List<Gift> gifts = new ArrayList<>();
+    private List<Gift> gifts;
     /**
      * new children list
      */
-    private List<Children> newChildren = new ArrayList<>();
+    private List<Children> newChildren;
     /**
      * children udates
      */
-    private List<ChildUpdate> childrenUpdates = new ArrayList<>();
+    private List<ChildUpdate> childrenUpdates;
 
     public AnnualChanges(final double newSantaBudget, final List<Gift> gifts,
                          final List<Children> newChildren,
