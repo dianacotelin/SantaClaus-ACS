@@ -3,6 +3,10 @@
 
 ~~~~~~~~  Proiect - Etapa 1 - Santa Claus is coming to ACS students  ~~~~~~~~
 
+
+    * am avut niste probleme cu commit-urile, am pus mesajele gresit si am incercat
+    sa dau revert si sa incerc iar, nu stiu daca sunt ok acum
+
     main -> Se creeaza calea de input si output si se apeleaza action pentru
             fiecare fisier.
 
