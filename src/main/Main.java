@@ -79,7 +79,7 @@ public final class Main {
 
             if (i == 0) {
                 List<Children> tempChildren = new ArrayList<>();
-                annualChildren = santaDb.roundZero(i);
+                annualChildren = santaDb.roundZero();
                 for (Children child: annualChildren) {
                     Children children1 = new Children(child);
                     tempChildren.add(children1);
