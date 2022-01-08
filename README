@@ -1,0 +1,82 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+321CD - Cotelin Maria-Diana
+
+~~~~~~~~  Proiect - Etapa 1 - Santa Claus is coming to ACS students  ~~~~~~~~
+
+    main -> Se creeaza calea de input si output si se apeleaza action pentru
+            fiecare fisier.
+
+            -> action: Am creat un input si am retinut datele de acolo, iar
+             apoi am facut un santaDB cu datele date. Pentru fiecare an am
+             apelat metoda pentru runde (respectiv RoundZero).
+             Am luat lista initiala de copii, iar apoi roundZero mi-a facut
+             lista actualizata, careia i-am facut deep-copy pentru a o pune
+             in finalChildren (lista de copii pentru fiecare runda), iar apoi
+             apoi in Result (lista de fiecare runda).
+             La urmatoarea runda, se da ca parametru numarul rundei si lista
+             annualChildren pe care o reactualizeaza si careia ii face iar
+             deep-copy pentru a o pune in output.
+             Am folosit objectMapper pentru a scrie rezultatul in output,
+             deoarece n-am reusit cu JSONObject.
+
+    child -> Am folosit Strategy si Factory pentru a determina scorul fiecarui
+            copil.
+            -> StrategyFactory - construieste instante de subclase ale
+               NiceScoreStrategy.
+               Contine o metoda createStrategy care primeste ca parametrii
+               varsta si lista de scoruri pentru un copil si apoi in functie
+               de varsta creeaza strategia pentru niceScore
+            -> Baby, Kid si Teen, implementeaza interfata NiceScoreStrategy,
+            contine o metoda getNiceScore care calculeaza scorul pentru fiecare
+            categorie de varsta asa cum era precizat in cerinta.
+
+    data -> contine clasele pentru Input:
+            -> InputLoader - asemanatoare cu clasa InputLoader de la tema
+            anterioara, am folosit JSONObject pentru fiecare element din
+            input, tot aici am folosit si clasa Utils care contine metode
+            de convertire dintr-un array de JSON in array de strings.
+            (foloseste deep-copy pentru Children, Gift si ChildUpdate).
+            * nu am folosit enumurile pentru oras si categorii, le-am
+            transformat in siruri de caractere, deoarece am avut probleme cu
+            JSONObject.
+
+            -> Input - clasa de Inputuri care contine datele numberOfYears,
+            santaBudget etc.
+
+            -> Children, Gift - clase pentru copii si cadouri
+
+            -> ChildUpdate - clasa asemanatoare cu Children, care are doar
+            campurile care se modifica
+
+            -> AnnualChanges - se retin schimbarile anuale
+
+            -> AnnualChildren, Result -> Clase folosite pentru output.
+            AnnualChildren este o lista de copii (pentru fiecare runda),
+            Result este o lista de AnnualChildren (de runde).
+
+            -> SantaDB - are doar 2 metode, una pentru runda 0 si una pentru
+            celelalte.
+                -> roundZero - am adaugat in istoricul fiecarui copil scorul
+                curent, iar apoi am folosit strategyFactory pentru a-i asigna
+                scorul. Am memorat fiecare valoare de scor pentru a calcula
+                budgetUnit ulterior.
+                In functie de buget si preferinte, am adaugat cadoul
+
+                -> rounds - Intai verific daca copiii au trecut la Young-Adult,
+                folosesc o lista auxiliara pentru acest lucru.
+                Verific apoi schimbarile anuale si actualizez datele, intai
+                bugetul, apoi adaug copiii noi si cadourile.
+                Parcurg lista de schimbari anuale si verific pentru ce copil
+                sunt schimbarile. Actualizez istoricul de scoruri si lista de
+                preferinte.
+                Parcurg toti copiii si setez scorul de cumintenie, iar apoi
+                calculez budgetUnit si setez bugetul pentru fiecare copil.
+                Adaug cadourile in functie de lista de preferinte si buget.
+
+    common-> Am adaugat constante folosite atat pentru citirea inputului cat si
+           pentru varste si teste.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+

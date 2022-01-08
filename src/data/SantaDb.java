@@ -28,16 +28,19 @@ public final class SantaDb {
      * This method is used for Round 0
      */
 
-    public List<Children> roundZero(final int i) {
+    public List<Children> roundZero() {
         List<Children> annualChildren = new ArrayList<>();
 
         double averageSum = 0.0;
         for (Children child : childrenList) {
             if (child.getAge() <= Constants.TEEN_AGE) {
+
                 List<Double> history = new ArrayList<>();
                 history.add(child.getAverageScore());
                 child.setNiceScoreHistory(history);
+
                 double score;
+
                 StrategyFactory strategyFactory = new StrategyFactory();
                 score = strategyFactory.createStrategy(child.getAge(), child.getNiceScoreHistory());
                 child.setAverageScore(score);
@@ -61,6 +64,9 @@ public final class SantaDb {
                                 price = gift.getPrice();
                                 giftFinal = gift;
                             } else {
+                                /* Ma asigut va aleg cadoul cu pretul
+                                cel mai mic
+                                 */
                                 if (price > gift.getPrice()) {
                                     price = gift.getPrice();
                                     giftFinal = gift;
@@ -85,6 +91,7 @@ public final class SantaDb {
      * This method is used for the rest of the rounds
      */
     public List<Children> rounds(final int i, List<Children> annualChildrenList) {
+        // Incrementez varsta pentru copiii existenti
         if (annualChildrenList != null) {
             List<Children> tempChildren = new ArrayList<>();
             for (Children child : annualChildrenList) {
@@ -100,12 +107,13 @@ public final class SantaDb {
         if (annualChangesList != null) {
             AnnualChanges change = annualChangesList.get(i - 1);
             santaBudget = change.getNewSantaBudget();
-            //System.out.println(santaBudget);
+            // Adaug copiii noi
             for (Children child : change.getNewChildren()) {
                 if (child.getAge() <= Constants.TEEN_AGE) {
                     annualChildrenList.add(child);
                 }
             }
+            // Adaug cadourile noi
             if (change.getGifts() != null) {
                 List<Gift> newGifts = change.getGifts();
                 for (Gift gift: newGifts) {
@@ -114,11 +122,14 @@ public final class SantaDb {
             }
 
             List<ChildUpdate> updates = change.getChildrenUpdates();
-            //System.out.println(change);
+
             for (ChildUpdate update : updates) {
 
                 for (Children child : annualChildrenList) {
                     if (child.getId() == update.getId()) {
+                        /* Modific niceScore-ul, in utils la convertJSONChildUpdate am pus
+                         scorul -1 acolo unde era null
+                         */
                         if (update.getNiceScore() >= 0) {
                             if (child.getNiceScoreHistory() != null) {
                                 child.getNiceScoreHistory().add(update.getNiceScore());
@@ -128,18 +139,21 @@ public final class SantaDb {
                                 child.setNiceScoreHistory(tempScore);
                             }
                         }
+                        // Modific lista de preferinte
                         if (update.getGiftsPreferences() != null) {
                             List<String> gifts = new ArrayList<>();
                             for (String gift : update.getGiftsPreferences()) {
                                 if (gifts == null) {
                                     gifts.add(gift);
                                 }
+                                // Verific daca sunt dubluri in lista
                                 if (!gifts.contains(gift)) {
                                     gifts.add(gift);
                                 }
                             }
                             for (String gift : child.getGiftsPreferences()) {
                                 int verify = 0;
+                                // Verific daca exista preferinta in lista initiala
                                 for (String gift2: gifts) {
                                     if (gift.equals(gift2)) {
                                         verify = 1;
@@ -156,6 +170,7 @@ public final class SantaDb {
                     }
                 }
             }
+            // Setez scorul de cumintenie
             double averageSum = 0.0;
             for (Children child: annualChildrenList) {
                 double score;
@@ -168,7 +183,7 @@ public final class SantaDb {
             for (Children child : annualChildrenList) {
                 child.setAssignedBudget(child.getAverageScore() * budgetUnit);
                 double budget = child.getAssignedBudget();
-                boolean verify = false;
+                boolean verify = false; // verific daca se adauga vreun cadou
                 List<Gift> receivedGifts = new ArrayList<>();
                 for (String preference : child.getGiftsPreferences()) {
                     double price = 0.0;
@@ -200,6 +215,7 @@ public final class SantaDb {
                         }
                     }
                 }
+                // daca nu s-a adaugat niciun cadou, fac lista de cadouri primite nula
                 if (!verify) {
                     child.setReceivedGifts(null);
                 }

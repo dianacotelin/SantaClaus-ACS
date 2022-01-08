@@ -26,28 +26,6 @@ public class Teen implements NiceScoreStrategy {
         } else {
             return 0;
         }
-        /*HashMap<Double, Double> weightedAvg = new HashMap<>();
-        double wAvg = 0.0;
-        double weight = 0.0;
-        if (niceScores != null) {
-            for (Double score : niceScores) {
-                if (weightedAvg.containsKey(score)) {
-                    weightedAvg.put(score, weightedAvg.get(score) + 1);
-                } else {
-                    weightedAvg.put(score, 1.0);
-                }
-
-            }
-        } else {
-            return 0;
-        }
-
-        for (Double key : weightedAvg.keySet()) {
-            wAvg = wAvg + key * weightedAvg.get(key);
-            weight += weightedAvg.get(key);
-        }
-
-        return wAvg / weight;*/
 
     }
 }
