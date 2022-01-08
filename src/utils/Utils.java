@@ -106,7 +106,6 @@ public final class Utils {
                                             .get(Constants.GIFT_PREFERENCE)));
                     finalArray.add(temp);
                 } else {
-                    // Daca scorul este null, am pus valoarea -1 ca sa stiu sa il ignor
                     ChildUpdate temp = new ChildUpdate(Integer.
                             parseInt(((JSONObject) object).
                                     get(Constants.ID).toString()),
