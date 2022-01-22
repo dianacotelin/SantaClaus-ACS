@@ -50,18 +50,38 @@ public final class InputLoader {
 
             if (jsonChildren != null) {
                 for (Object jsonChild : jsonChildren) {
-                    children.add(new Children(
+                    if (Double.parseDouble(((JSONObject) jsonChild)
+                            .get(Constants.NICE_SCORE_BONUS).toString()) != 0) {
+                        children.add(new Children.Builder(
+                                Integer.parseInt(((JSONObject) jsonChild)
+                                        .get(Constants.ID).toString()),
+                                (String) ((JSONObject) jsonChild).get(Constants.LAST_NAME),
+                                (String) ((JSONObject) jsonChild).get(Constants.FIRST_NAME),
+                                (String) ((JSONObject) jsonChild).get(Constants.CITY),
+                                Integer.parseInt(((JSONObject) jsonChild)
+                                        .get(Constants.AGE).toString()),
+                                Double.parseDouble(((JSONObject) jsonChild)
+                                        .get(Constants.NICE_SCORE).toString()),
+                                Utils.convertJSONArray((JSONArray) ((JSONObject) jsonChild)
+                                        .get(Constants.GIFT_PREFERENCE)),
+                                (String) ((JSONObject) jsonChild).get(Constants.ELF)).
+                                scoreBonus(Double.parseDouble(((JSONObject) jsonChild)
+                                .get(Constants.NICE_SCORE_BONUS).toString())).build()
+                        );
+                    } else {
+                    children.add(new Children.Builder(
                             Integer.parseInt(((JSONObject) jsonChild).get(Constants.ID).toString()),
                             (String) ((JSONObject) jsonChild).get(Constants.LAST_NAME),
                             (String) ((JSONObject) jsonChild).get(Constants.FIRST_NAME),
-                                    (String) ((JSONObject) jsonChild).get(Constants.CITY),
-                                    Integer.parseInt(((JSONObject) jsonChild)
-                                            .get(Constants.AGE).toString()),
+                            (String) ((JSONObject) jsonChild).get(Constants.CITY),
+                            Integer.parseInt(((JSONObject) jsonChild)
+                                    .get(Constants.AGE).toString()),
                             Double.parseDouble(((JSONObject) jsonChild)
                                     .get(Constants.NICE_SCORE).toString()),
                             Utils.convertJSONArray((JSONArray) ((JSONObject) jsonChild)
-                                    .get(Constants.GIFT_PREFERENCE)))
-                            );
+                                    .get(Constants.GIFT_PREFERENCE)),
+                            (String) ((JSONObject) jsonChild).get(Constants.ELF)).build());
+                    }
                 }
             }
 
@@ -71,7 +91,10 @@ public final class InputLoader {
                             .get(Constants.PRODUCT_NAME),
                             Double.parseDouble(((JSONObject) jsonGift)
                                     .get(Constants.PRICE).toString()),
-                            (String) ((JSONObject) jsonGift).get(Constants.CATEGORY)));
+                            (String) ((JSONObject) jsonGift).get(Constants.CATEGORY),
+                            Integer.parseInt(((JSONObject) jsonGift)
+                                    .get(Constants.QUANTITY).toString())
+                            ));
                 }
             }
             if (jsonChanges != null) {
@@ -92,7 +115,9 @@ public final class InputLoader {
                             .get(Constants.NEW_SANTA_BUDGET).toString()),
                             Utils.convertJSONGifts(jsonNewGifts),
                             Utils.convertJSONChildren(jsonNewChildren),
-                            Utils.convertJSONChildUpdate(jsonChildrenUpdates)
+                            Utils.convertJSONChildUpdate(jsonChildrenUpdates),
+                            (String) ((JSONObject) change).get(Constants.STRATEGY)
+
                     ));
                 }
             }

@@ -1,17 +1,18 @@
 package main;
 
 import checker.Checker;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import common.Constants;
-import data.AnnualChildren;
 import data.Children;
 import data.Gift;
-import data.Result;
-import data.AnnualChanges;
 import data.Input;
+import data.Database;
 import data.InputLoader;
-import data.SantaDb;
+import data.AnnualChanges;
+import data.Result;
+import data.Rounds;
+import data.AnnualChildren;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +43,7 @@ public final class Main {
         }
         File outputDirectory = new File(Constants.OUTPUT_PATH);
 
-        for (int i = 1; i < Constants.NO_TESTS; i++) {
+        for (int i = 1; i <= Constants.NO_TESTS; i++) {
             String name = Constants.TEST_PATH + i + Constants.FILE_EXTENSION;
             String name2 = Constants.OUTPUT_PATH + i + Constants.FILE_EXTENSION;
             file  = new File(name);
@@ -71,7 +72,13 @@ public final class Main {
         List<Gift> gifts = input.getGifts();
         List<AnnualChanges> annualChanges = input.getAnnualChanges();
 
-        SantaDb santaDb = new SantaDb(numberOfYears, santaBudget, children, gifts, annualChanges);
+        Database.getDatabase();
+        Database.getDatabase().setNumberOfYears(numberOfYears);
+        Database.getDatabase().setSantaBudget(santaBudget);
+        Database.getDatabase().setChildrenList(children);
+        Database.getDatabase().setGiftList(gifts);
+        Database.getDatabase().setAnnualChangesList(annualChanges);
+
         List<AnnualChildren> finalChildren = new ArrayList<>();
         Result result = null;
         List<Children> annualChildren = null;
@@ -79,7 +86,7 @@ public final class Main {
 
             if (i == 0) {
                 List<Children> tempChildren = new ArrayList<>();
-                annualChildren = santaDb.roundZero();
+                annualChildren = Rounds.roundZero();
                 for (Children child: annualChildren) {
                     Children children1 = new Children(child);
                     tempChildren.add(children1);
@@ -87,7 +94,7 @@ public final class Main {
                 finalChildren.add(new AnnualChildren(tempChildren));
                 result = new Result(finalChildren);
             } else {
-                List<Children> tempChildren = santaDb.rounds(i, annualChildren);
+                List<Children> tempChildren = Rounds.rounds(i, annualChildren);
                 annualChildren = new ArrayList<>();
                 List<Children> tempChildren1 = new ArrayList<>();
                 for (Children child : tempChildren) {
@@ -101,5 +108,8 @@ public final class Main {
         }
         objectMapper.writeValue(new File(filePath2), result);
 
+        Database.getDatabase().destroyDatabase();
+
     }
 }
+

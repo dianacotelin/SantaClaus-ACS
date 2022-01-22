@@ -1,5 +1,6 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +16,60 @@ public final class Children {
     private List<Double> niceScoreHistory;
     private double assignedBudget;
     private List<Gift> receivedGifts;
-    public Children(final int id, final String lastName, final String firstName,
-                     final String city, final int age,
-                    final double niceScore, final ArrayList<String> giftsPreferences) {
-        this.id = id;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.city = city;
-        this.age = age;
-        this.averageScore = niceScore;
-        this.giftsPreferences = giftsPreferences;
-    }
+    @JsonIgnore private double niceScoreBonus;
+    @JsonIgnore private String elf;
 
+    private Children(final Builder builder) {
+        this.id = builder.id;
+        this.lastName = builder.lastName;
+        this.firstName = builder.firstName;
+        this.city = builder.city;
+        this.age = builder.age;
+        this.averageScore = builder.averageScore;
+        this.giftsPreferences = builder.giftsPreferences;
+        this.niceScoreBonus = builder.niceScoreBonus;
+        this.elf = builder.elf;
+    }
+    public static class Builder {
+        private int id;
+        private String lastName;
+        private String firstName;
+        private String city;
+        private int age;
+        private ArrayList<String> giftsPreferences;
+        private double averageScore;
+        private List<Double> niceScoreHistory;
+        private double assignedBudget;
+        private List<Gift> receivedGifts;
+        private double niceScoreBonus = 0;
+        private String elf;
+        public Builder(final int id, final String lastName, final String firstName,
+                        final String city, final int age,
+                        final double niceScore, final ArrayList<String> giftsPreferences,
+                         final String elf) {
+            this.id = id;
+            this.lastName = lastName;
+            this.firstName = firstName;
+            this.city = city;
+            this.age = age;
+            this.averageScore = niceScore;
+            this.giftsPreferences = giftsPreferences;
+            this.elf = elf;
+        }
+        /**
+         * Builder for scoreBonus
+         */
+        public Builder scoreBonus(final double niceScoreBonus) {
+            this.niceScoreBonus = niceScoreBonus;
+            return this;
+        }
+        /**
+         * Build children
+         */
+        public Children build() {
+            return new Children(this);
+        }
+    }
     public int getId() {
         return id;
     }
@@ -106,6 +149,23 @@ public final class Children {
     public void setAssignedBudget(final double assignedBudget) {
         this.assignedBudget = assignedBudget;
     }
+
+    public double getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    public void setNiceScoreBonus(final double niceScoreBonus) {
+        this.niceScoreBonus = niceScoreBonus;
+    }
+
+    public String getElf() {
+        return elf;
+    }
+
+    public void setElf(final String elf) {
+        this.elf = elf;
+    }
+
     public Children(final Children otherChildren) {
         this.id = new Integer(otherChildren.id);
         this.lastName = new String(otherChildren.lastName);
@@ -125,6 +185,8 @@ public final class Children {
         } else {
             this.niceScoreHistory = new ArrayList<>();
         }
+        this.niceScoreBonus = new Double(otherChildren.niceScoreBonus);
+        this.elf = new String(otherChildren.elf);
     }
 
     @Override

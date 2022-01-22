@@ -17,17 +17,20 @@ public final class AnnualChanges {
      */
     private List<Children> newChildren;
     /**
-     * children udates
+     * children updates
      */
     private List<ChildUpdate> childrenUpdates;
+    private String strategy;
 
     public AnnualChanges(final double newSantaBudget, final List<Gift> gifts,
                          final List<Children> newChildren,
-                         final ArrayList<ChildUpdate> childrenUpdates) {
+                         final ArrayList<ChildUpdate> childrenUpdates,
+                         final String strategy) {
         this.newSantaBudget = newSantaBudget;
         this.gifts = gifts;
         this.childrenUpdates = childrenUpdates;
         this.newChildren = newChildren;
+        this.strategy = strategy;
     }
 
     public double getNewSantaBudget() {
@@ -60,6 +63,14 @@ public final class AnnualChanges {
 
     public void setChildrenUpdates(final List<ChildUpdate> childrenUpdates) {
         this.childrenUpdates = childrenUpdates;
+    }
+
+    public String getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(final String strategy) {
+        this.strategy = strategy;
     }
 
     @Override

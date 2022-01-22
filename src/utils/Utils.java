@@ -43,21 +43,45 @@ public final class Utils {
         if (array != null) {
             ArrayList<Children> finalArray = new ArrayList<>();
             for (Object object : array) {
-                Children temp = new Children(
-                        Integer.parseInt(((JSONObject) object).get(Constants.ID).toString()),
-                        (String) ((JSONObject) object).get(Constants.LAST_NAME),
-                        (String) ((JSONObject) object).get(Constants.FIRST_NAME),
-                        (String) ((JSONObject) object).get(Constants.CITY),
-                        Integer.parseInt(((JSONObject) object)
-                                .get(Constants.AGE).toString()),
-                        Double.parseDouble(((JSONObject) object)
-                                .get(Constants.NICE_SCORE).toString()),
-                        Utils.convertJSONArray((JSONArray) ((JSONObject) object)
-                                .get(Constants.GIFT_PREFERENCE)));
-                List<Double> scoreTmp = new ArrayList<>();
-                scoreTmp.add(temp.getAverageScore());
-                temp.setNiceScoreHistory(scoreTmp);
-                finalArray.add(temp);
+                if (Double.parseDouble(((JSONObject) object)
+                        .get(Constants.NICE_SCORE_BONUS).toString()) != 0) {
+                    Children temp = new Children.Builder(
+                            Integer.parseInt(((JSONObject) object).get(Constants.ID).toString()),
+                            (String) ((JSONObject) object).get(Constants.LAST_NAME),
+                            (String) ((JSONObject) object).get(Constants.FIRST_NAME),
+                            (String) ((JSONObject) object).get(Constants.CITY),
+                            Integer.parseInt(((JSONObject) object)
+                                    .get(Constants.AGE).toString()),
+                            Double.parseDouble(((JSONObject) object)
+                                    .get(Constants.NICE_SCORE).toString()),
+                            Utils.convertJSONArray((JSONArray) ((JSONObject) object)
+                                    .get(Constants.GIFT_PREFERENCE)),
+                            (String) ((JSONObject) object).get(Constants.ELF)).
+                            scoreBonus(Double.parseDouble(((JSONObject) object)
+                            .get(Constants.NICE_SCORE_BONUS).toString())).build();
+
+                    List<Double> scoreTmp = new ArrayList<>();
+                    scoreTmp.add(temp.getAverageScore());
+                    temp.setNiceScoreHistory(scoreTmp);
+                    finalArray.add(temp);
+                } else {
+                    Children temp = new Children.Builder(
+                            Integer.parseInt(((JSONObject) object).get(Constants.ID).toString()),
+                            (String) ((JSONObject) object).get(Constants.LAST_NAME),
+                            (String) ((JSONObject) object).get(Constants.FIRST_NAME),
+                            (String) ((JSONObject) object).get(Constants.CITY),
+                            Integer.parseInt(((JSONObject) object)
+                                    .get(Constants.AGE).toString()),
+                            Double.parseDouble(((JSONObject) object)
+                                    .get(Constants.NICE_SCORE).toString()),
+                            Utils.convertJSONArray((JSONArray) ((JSONObject) object)
+                                    .get(Constants.GIFT_PREFERENCE)),
+                            (String) ((JSONObject) object).get(Constants.ELF)).build();
+                    List<Double> scoreTmp = new ArrayList<>();
+                    scoreTmp.add(temp.getAverageScore());
+                    temp.setNiceScoreHistory(scoreTmp);
+                    finalArray.add(temp);
+                }
             }
             return finalArray;
         } else {
@@ -77,7 +101,9 @@ public final class Utils {
                         .get(Constants.PRODUCT_NAME),
                         Double.parseDouble(((JSONObject) object)
                                 .get(Constants.PRICE).toString()),
-                        (String) ((JSONObject) object).get(Constants.CATEGORY));
+                        (String) ((JSONObject) object).get(Constants.CATEGORY),
+                        Integer.parseInt(((JSONObject) object)
+                                .get(Constants.QUANTITY).toString()));
                 finalArray.add(gift);
             }
             return finalArray;
@@ -103,7 +129,9 @@ public final class Utils {
                                     .get(Constants.NICE_SCORE).toString()),
                             Utils.convertJSONArray((JSONArray)
                                     ((JSONObject) object)
-                                            .get(Constants.GIFT_PREFERENCE)));
+                                            .get(Constants.GIFT_PREFERENCE)),
+                            (String) ((JSONObject) object).get(Constants.ELF)
+                    );
                     finalArray.add(temp);
                 } else {
                     // Daca scorul este null, am pus valoarea -1 ca sa stiu sa il ignor
@@ -113,7 +141,8 @@ public final class Utils {
                             -1,
                             Utils.convertJSONArray((JSONArray)
                                     ((JSONObject) object)
-                                            .get(Constants.GIFT_PREFERENCE)));
+                                            .get(Constants.GIFT_PREFERENCE)),
+                    (String) ((JSONObject) object).get(Constants.ELF));
                     finalArray.add(temp);
                 }
             }

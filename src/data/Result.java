@@ -20,7 +20,7 @@ public final class Result {
     public String toString() {
         return "Result{"
                 +
-                "children=" + children
+                "children=" + children.toString()
                 +
                 '}';
     }

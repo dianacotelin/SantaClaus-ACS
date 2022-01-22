@@ -7,7 +7,7 @@ public final class Constants {
     public static final String FILE_EXTENSION = ".json";
     public static final Integer SMALL_TEST_POINTS = 2;
     public static final Integer BIG_TEST_POINTS = 3;
-    public static final Integer TESTS_NUMBER = 25;
+    public static final Integer TESTS_NUMBER = 30;
     public static final Integer MAXIMUM_ERROR_CHECKSTYLE = 30;
     public static final Integer CHECKSTYLE_POINTS = 10;
     public static final Integer TESTS_NUMBER_SMALL = 15;
@@ -36,8 +36,16 @@ public final class Constants {
     public static final Integer BABY_AGE = 5;
     public static final Integer KID_AGE = 12;
     public static final Integer TEEN_AGE = 18;
-    public static final Integer NO_TESTS = 26;
-
+    public static final Integer NO_TESTS = 30;
+    public static final String NICE_SCORE_BONUS = "niceScoreBonus";
+    public static final String ELF = "elf";
+    public static final String STRATEGY = "strategy";
+    public static final String SCORE_CITY = "niceScoreCity";
+    public static final String QUANTITY = "quantity";
+    public static final Integer TEN = 10;
+    public static final Integer HUNDRED = 100;
+    public static final Integer PERCENT = 30;
+    public static final Integer BIG_PRICE = 100000000;
     private Constants() {
         //constructor for checkstyle
     }

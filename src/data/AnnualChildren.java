@@ -24,7 +24,7 @@ public final class AnnualChildren {
     public String toString() {
         return "children{"
                 +
-                "children{ " + children
+                "children{ " + children.toString()
                 +
                 '}';
     }
